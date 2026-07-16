@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3333";
+export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://sgtlapi.blazebr.com:25817";
 const TOKEN_KEY = "sgtl.auth.token";
 
 type RequestOptions = {
