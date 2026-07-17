@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+﻿import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Input } from "../components/ui/input";
@@ -132,7 +132,7 @@ export function UsersPage() {
     return (
         <section className="space-y-4">
             <div className="flex justify-between">
-                <p className="text-sm text-[#4B5563]">Contas que podem acessar o sistema. Funcionários operacionais ficam em Cadastros.</p>
+                <p className="text-sm text-text-secondary">Contas que podem acessar o sistema. Funcionários operacionais ficam em Cadastros.</p>
                 <Button onClick={openCreate}>Novo usuário</Button>
             </div>
 
@@ -156,7 +156,7 @@ export function UsersPage() {
                         </Select>
                     </Field>
                     <div className="flex items-end">
-                        <p className="rounded-full border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#006A4E]">{filteredUsers.length} usuários</p>
+                        <p className="rounded-full border border-accent-soft-strong bg-accent-soft px-3 py-2 text-sm font-semibold text-surface">{filteredUsers.length} usuários</p>
                     </div>
                 </FilterBar>
                 <div className="hidden overflow-x-auto md:block">
@@ -173,14 +173,14 @@ export function UsersPage() {
                         <TableBody>
                             {isLoading ? (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="py-8 text-center text-[#4B5563]">
+                                    <TableCell colSpan={5} className="py-8 text-center text-text-secondary">
                                         Carregando usuários...
                                     </TableCell>
                                 </TableRow>
                             ) : null}
                             {!isLoading && visibleUsers.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="py-8 text-center text-[#4B5563]">
+                                    <TableCell colSpan={5} className="py-8 text-center text-text-secondary">
                                         Nenhum usuário encontrado.
                                     </TableCell>
                                 </TableRow>
@@ -188,7 +188,7 @@ export function UsersPage() {
                             {!isLoading &&
                                 visibleUsers.map((user) => (
                                     <TableRow key={user.id}>
-                                        <TableCell className="font-medium text-[#1F2937]">{user.name}</TableCell>
+                                        <TableCell className="font-medium text-(--color-text-primary)">{user.name}</TableCell>
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>{accessLabel(user.role)}</TableCell>
                                         <TableCell>
@@ -234,8 +234,8 @@ export function UsersPage() {
                         </FormSection>
                     </div>
 
-                    <aside className="rounded-lg border border-[#D1D5DB] bg-[#F8F9FA] p-4">
-                        <p className="text-sm font-semibold text-[#1F2937]">Resumo do acesso</p>
+                    <aside className="rounded-lg border border-border-strong bg-canvas p-4">
+                        <p className="text-sm font-semibold text-(--color-text-primary)">Resumo do acesso</p>
                         <dl className="mt-4 space-y-3 text-sm">
                             <SummaryItem label="Nome" value={form.name.trim() || "Não informado"} />
                             <SummaryItem label="E-mail" value={form.email.trim() || "Não informado"} />
@@ -280,7 +280,7 @@ export function UsersPage() {
                 </form>
             </Modal>
 
-            <ConfirmDialog open={Boolean(confirmUser)} title={confirmUser?.isActive ? "Desativar usuário" : "Ativar usuário"} description={`Confirma a alteração de status de ${confirmUser?.name ?? "este usuário"}?`} confirmLabel={confirmUser?.isActive ? "Desativar" : "Ativar"} onCancel={() => setConfirmUser(null)} onConfirm={toggleStatus} />
+            <ConfirmDialog open={Boolean(confirmUser)} title={confirmUser?.isActive ? "Desativar usuário" : "Ativar usuário"} description={`Confirma a alteração de status de ${confirmUser?.name || "este usuário"}?`} confirmLabel={confirmUser?.isActive ? "Desativar" : "Ativar"} onCancel={() => setConfirmUser(null)} onConfirm={toggleStatus} />
         </section>
     );
 }
@@ -288,8 +288,8 @@ export function UsersPage() {
 function SummaryItem({ label, value }: { label: string; value: string }) {
     return (
         <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">{label}</dt>
-            <dd className="mt-1 wrap-break-word font-medium text-[#1F2937]">{value}</dd>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-text-muted">{label}</dt>
+            <dd className="mt-1 wrap-break-word font-medium text-(--color-text-primary)">{value}</dd>
         </div>
     );
 }

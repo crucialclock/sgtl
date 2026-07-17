@@ -73,7 +73,7 @@ export function DailyLogsPage() {
     const filteredDailyLogs = useMemo(() => {
         const term = search.trim().toLowerCase();
         return dailyLogs.filter((item) => {
-            const matchesSearch = !term || `${item.nrNota} ${item.vehicleLabel ?? ""} ${item.driverName ?? ""} ${item.originName ?? ""} ${item.destinationName ?? ""}`.toLowerCase().includes(term);
+            const matchesSearch = !term || `${item.nrNota} ${item.vehicleLabel || ""} ${item.driverName || ""} ${item.originName || ""} ${item.destinationName || ""}`.toLowerCase().includes(term);
             const matchesVehicle = vehicleFilter === "all" || item.vehicleId === Number(vehicleFilter);
             const matchesDriver = driverFilter === "all" || item.driverId === Number(driverFilter);
             const matchesFrom = !dateFrom || item.data >= dateFrom;
@@ -134,7 +134,7 @@ export function DailyLogsPage() {
 
     function selectVehicle(id: number) {
         const vehicle = vehicles.find((item) => item.id === id);
-        setForm((current) => ({ ...current, vehicleId: id, kmSaida: editingDailyLog ? current.kmSaida : (vehicle?.kmRodado ?? current.kmSaida) }));
+        setForm((current) => ({ ...current, vehicleId: id, kmSaida: editingDailyLog ? current.kmSaida : vehicle?.kmRodado || current.kmSaida }));
     }
 
     async function submit(event: FormEvent<HTMLFormElement>) {
@@ -153,7 +153,7 @@ export function DailyLogsPage() {
         }
 
         if (form.originId === form.destinationId) {
-            toast({ title: "Origem e destino iguais", description: "A origem e o destino n?o podem ser iguais.", type: "warning" });
+            toast({ title: "Origem e destino iguais", description: "A origem e o destino não podem ser iguais.", type: "warning" });
             return;
         }
         if (payload.kmChegada <= payload.kmSaida) {
@@ -201,7 +201,7 @@ export function DailyLogsPage() {
     return (
         <section className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-[#4B5563]">Controle lançamentos, fretes e quilometragem por viagem.</p>
+                <p className="text-sm text-text-secondary">Controle lançamentos, fretes e quilometragem por viagem.</p>
                 <div className="flex flex-wrap gap-2">
                     <Button variant="outline" onClick={exportPdf}>
                         Exportar PDF
@@ -221,7 +221,7 @@ export function DailyLogsPage() {
                         </Button>
                     </div>
                     <div className="flex items-end">
-                        <p className="rounded-full border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#006A4E]">{filteredDailyLogs.length} diárias</p>
+                        <p className="rounded-full border border-accent-soft-strong bg-accent-soft px-3 py-2 text-sm font-semibold text-surface">{filteredDailyLogs.length} diárias</p>
                     </div>
                     {isAdvancedOpen && (
                         <>
@@ -255,7 +255,7 @@ export function DailyLogsPage() {
                     )}
                 </FilterBar>
                 <div className="hidden overflow-x-auto md:block">
-                    <Table className="min-w-[980px]">
+                    <Table className="min-w-245">
                         <TableHead>
                             <TableRow className="border-t-0">
                                 <TableHeader>Diária</TableHeader>
@@ -265,14 +265,14 @@ export function DailyLogsPage() {
                         <TableBody>
                             {isLoading ? (
                                 <TableRow>
-                                    <TableCell colSpan={2} className="py-8 text-center text-[#4B5563]">
+                                    <TableCell colSpan={2} className="py-8 text-center text-text-secondary">
                                         Carregando diárias...
                                     </TableCell>
                                 </TableRow>
                             ) : null}
                             {!isLoading && visibleDailyLogs.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={2} className="py-8 text-center text-[#4B5563]">
+                                    <TableCell colSpan={2} className="py-8 text-center text-text-secondary">
                                         Nenhuma diária encontrada.
                                     </TableCell>
                                 </TableRow>
@@ -299,11 +299,11 @@ export function DailyLogsPage() {
                     </Table>
                 </div>
                 <div className="space-y-3 p-4 md:hidden">
-                    {isLoading ? <p className="text-sm text-[#4B5563]">Carregando diárias...</p> : null}
-                    {!isLoading && visibleDailyLogs.length === 0 ? <p className="text-sm text-[#4B5563]">Nenhuma diária encontrada.</p> : null}
+                    {isLoading ? <p className="text-sm text-text-secondary">Carregando diárias...</p> : null}
+                    {!isLoading && visibleDailyLogs.length === 0 ? <p className="text-sm text-text-secondary">Nenhuma diária encontrada.</p> : null}
                     {!isLoading &&
                         visibleDailyLogs.map((item) => (
-                            <div key={item.id} className="rounded-lg border border-[#D1D5DB] bg-white p-4 text-sm shadow-sm">
+                            <div key={item.id} className="rounded-lg border border-border-strong bg-white p-4 text-sm shadow-sm">
                                 <DailyLogBlock item={item} compact />
                                 <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
                                     <div className="flex gap-2">
@@ -392,11 +392,11 @@ export function DailyLogsPage() {
                         </FormSection>
                     </div>
 
-                    <aside className="rounded-lg border border-[#D1D5DB] bg-[#F8F9FA] p-4">
-                        <p className="text-sm font-semibold text-[#1F2937]">Resumo da diária</p>
+                    <aside className="rounded-lg border border-border-strong bg-canvas p-4">
+                        <p className="text-sm font-semibold text-(--color-text-primary)">Resumo da diária</p>
                         <dl className="mt-4 space-y-3 text-sm">
                             <SummaryItem label="Veículo" value={selectedVehicle ? `${selectedVehicle.placa} - ${selectedVehicle.modelo}` : "Não selecionado"} />
-                            <SummaryItem label="Funcionário" value={selectedDriver?.nome ?? "Não selecionado"} />
+                            <SummaryItem label="Funcionário" value={selectedDriver?.nome || "Não selecionado"} />
                             <SummaryItem label="Rota" value={selectedOrigin && selectedDestination ? `${selectedOrigin.nome} → ${selectedDestination.nome}` : "Origem e destino pendentes"} />
                             <SummaryItem label="Distância" value={`${distance} km`} />
                             <SummaryItem label="Frete" value={formatCurrency(toNumber(form.valorFrete))} />
@@ -417,8 +417,8 @@ export function DailyLogsPage() {
 function SummaryItem({ label, value }: { label: string; value: string }) {
     return (
         <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">{label}</dt>
-            <dd className="mt-1 font-medium text-[#1F2937]">{value}</dd>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-text-muted">{label}</dt>
+            <dd className="mt-1 font-medium text-(--color-text-primary)">{value}</dd>
         </div>
     );
 }
@@ -431,67 +431,65 @@ function DailyLogBlock({ item, compact = false }: { item: DailyLog; compact?: bo
             <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                 <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-md border border-[#BBF7D0] bg-[#ECFDF5] px-2.5 py-1 text-xs font-semibold text-[#006A4E]">
+                        <span className="inline-flex items-center gap-1.5 rounded-md border border-accent-soft-strong bg-accent-soft px-2.5 py-1 text-xs font-semibold text-surface">
                             <FileText size={14} />
                             Nota {item.nrNota}
                         </span>
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4B5563]">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary">
                             <CalendarDays size={14} />
                             {formatDate(item.data)}
                         </span>
                     </div>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#4B5563]">
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-secondary">
                         <span className="inline-flex min-w-0 items-center gap-2">
-                            <Truck size={16} className="shrink-0 text-[#006A4E]" />
+                            <Truck size={16} className="shrink-0 text-surface" />
                             <span className="truncate">{item.vehicleLabel || "-"}</span>
                         </span>
                         <span className="inline-flex min-w-0 items-center gap-2">
-                            <UserRound size={16} className="shrink-0 text-[#006A4E]" />
+                            <UserRound size={16} className="shrink-0 text-surface" />
                             <span className="truncate">{item.driverName || "-"}</span>
                         </span>
                     </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2 rounded-md border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#1F2937]">
-                    <DollarSign size={16} className="text-[#047857]" />
+                <div className="flex shrink-0 items-center gap-2 rounded-md border border-accent-soft-strong bg-accent-soft px-3 py-2 text-sm font-semibold text-(--color-text-primary)">
+                    <DollarSign size={16} className="text-surface" />
                     {formatCurrency(item.valorFrete)}
                 </div>
             </div>
 
             <div className={compact ? "mt-4 space-y-3" : "mt-4 grid gap-4 lg:grid-cols-[1.45fr_1fr]"}>
                 <div className="min-w-0">
-                    <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
+                    <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
                         <MapPin size={14} />
                         Rota
                     </p>
                     <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
-                        <span className="min-w-0 truncate text-sm font-semibold text-[#1F2937]" title={item.originName || "-"}>
+                        <span className="min-w-0 truncate text-sm font-semibold text-(--color-text-primary)" title={item.originName || "-"}>
                             {item.originName || "-"}
                         </span>
-                        <ArrowRight size={16} className="hidden shrink-0 text-[#006A4E] sm:block" />
-                        <span className="h-px w-8 bg-[#D1D5DB] sm:hidden" />
-                        <span className="min-w-0 truncate text-sm font-semibold text-[#1F2937]" title={item.destinationName || "-"}>
+                        <ArrowRight size={16} className="hidden shrink-0 text-surface sm:block" />
+                        <span className="h-px w-8 bg-border-strong sm:hidden" />
+                        <span className="min-w-0 truncate text-sm font-semibold text-(--color-text-primary)" title={item.destinationName || "-"}>
                             {item.destinationName || "-"}
                         </span>
                     </div>
                 </div>
 
                 <div>
-                    <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
+                    <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
                         <Gauge size={14} />
                         Quilometragem
                     </p>
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm">
                         <span>
-                            <span className="text-[#6B7280]">Saída</span>{" "}
-                            <strong className="text-[#1F2937]">{formatNumber(item.kmSaida)}</strong>
+                            <span className="text-text-muted">Saída</span> <strong className="text-(--color-text-primary)">{formatNumber(item.kmSaida)}</strong>
                         </span>
-                        <span className="text-[#D1D5DB]">/</span>
+                        <span className="text-border-strong">/</span>
                         <span>
-                            <span className="text-[#6B7280]">Chegada</span>{" "}
-                            <strong className="text-[#1F2937]">{formatNumber(item.kmChegada)}</strong>
+                            <span className="text-text-muted">Chegada</span> <strong className="text-(--color-text-primary)">{formatNumber(item.kmChegada)}</strong>
                         </span>
-                        <span className="rounded-full bg-[#F3F4F6] px-2 py-0.5 text-xs font-semibold text-[#4B5563]">{formatNumber(distance)} km</span>
+                        <span className="rounded-full bg-canvas-strong px-2 py-0.5 text-xs font-semibold text-text-secondary">{formatNumber(distance)} km</span>
                     </div>
                 </div>
             </div>

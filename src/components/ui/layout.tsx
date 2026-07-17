@@ -18,45 +18,45 @@ export function Field({
 }) {
     return (
         <label className={cn("block", className)}>
-            <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[#4B5563]">{label}</span>
+            <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">{label}</span>
             {children}
-            {error ? <span className="mt-1 block text-xs font-medium text-[#EF4444]">{error}</span> : null}
-            {!error && helper ? <span className="mt-1 block text-xs text-[#6B7280]">{helper}</span> : null}
+            {error ? <span className="mt-1 block text-xs font-medium text-[var(--color-accent-contrast)]">{error}</span> : null}
+            {!error && helper ? <span className="mt-1 block text-xs text-[var(--color-text-muted)]">{helper}</span> : null}
         </label>
     );
 }
 
 export function FormSection({ title, children, className = "" }: { title: string; children: ReactNode; className?: string }) {
     return (
-        <fieldset className={cn("rounded-lg border border-[#D1D5DB] bg-[#F8F9FA] p-4", className)}>
-            <legend className="px-1 text-sm font-semibold text-[#1F2937]">{title}</legend>
+        <fieldset className={cn("rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-canvas)] p-4", className)}>
+            <legend className="px-1 text-sm font-semibold text-[var(--color-text-primary)]">{title}</legend>
             <div className="mt-2 grid gap-4 md:grid-cols-2">{children}</div>
         </fieldset>
     );
 }
 
 export function FilterBar({ children }: { children: ReactNode }) {
-    return <div className="grid gap-3 border-b border-[#D1D5DB] bg-[#F8F9FA] p-4 md:grid-cols-4">{children}</div>;
+    return <div className="grid gap-3 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] p-4 md:grid-cols-4">{children}</div>;
 }
 
 export function EmptyState({ title, description }: { title: string; description?: string }) {
     return (
         <div className="py-10 text-center">
-            <p className="text-sm font-semibold text-[#1F2937]">{title}</p>
-            {description ? <p className="mt-1 text-sm text-[#4B5563]">{description}</p> : null}
+            <p className="text-sm font-semibold text-[var(--color-text-primary)]">{title}</p>
+            {description ? <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{description}</p> : null}
         </div>
     );
 }
 
 export function StatusBadge({ tone = "neutral", children }: { tone?: "success" | "danger" | "info" | "neutral"; children: ReactNode }) {
     const tones = {
-        success: "bg-emerald-50 text-[#047857]",
-        danger: "bg-red-50 text-[#B91C1C]",
-        info: "bg-blue-50 text-[#1D4ED8]",
-        neutral: "bg-slate-100 text-[#4B5563]",
+        success: "border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] text-[var(--color-surface)]",
+        danger: "border-[var(--color-border-strong)] bg-[var(--color-canvas)] text-[var(--color-accent-contrast)]",
+        info: "border-[var(--color-border-soft)] bg-[var(--color-canvas)] text-[var(--color-surface-soft)]",
+        neutral: "border-[var(--color-border-soft)] bg-[var(--color-canvas-strong)] text-[var(--color-text-secondary)]",
     };
 
-    return <span className={cn("inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold", tones[tone], tone === "success" && "border-emerald-200", tone === "danger" && "border-red-200", tone === "info" && "border-blue-200", tone === "neutral" && "border-slate-200")}>{children}</span>;
+    return <span className={cn("inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold", tones[tone])}>{children}</span>;
 }
 
 export function Modal({
@@ -92,12 +92,12 @@ export function Modal({
     const sizeClass = size === "lg" ? "max-w-4xl" : "max-w-3xl";
 
     return (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/40 p-4" onMouseDown={onClose}>
-            <div className={cn("max-h-[92vh] w-full overflow-y-auto rounded-lg border border-[#D1D5DB] bg-white shadow-2xl shadow-slate-900/20", sizeClass)} onMouseDown={(event) => event.stopPropagation()}>
-                <div className="flex items-start justify-between gap-4 border-b border-[#D1D5DB] bg-[#F8F9FA] px-5 py-4">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(45,50,56,0.35)] p-4" onMouseDown={onClose}>
+            <div className={cn("max-h-[92vh] w-full overflow-y-auto rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-surface-contrast)] shadow-2xl shadow-[rgba(45,50,56,0.16)]", sizeClass)} onMouseDown={(event) => event.stopPropagation()}>
+                <div className="flex items-start justify-between gap-4 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] px-5 py-4">
                     <div>
-                        <h2 className="text-lg font-semibold text-[#1F2937]">{title}</h2>
-                        {description ? <p className="mt-1 text-sm text-[#4B5563]">{description}</p> : null}
+                        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h2>
+                        {description ? <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{description}</p> : null}
                     </div>
                     <Button variant="ghost" className="h-8 px-2" onClick={onClose}>Fechar</Button>
                 </div>
@@ -141,10 +141,10 @@ export function ConfirmDialog({
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4" onMouseDown={onCancel}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(45,50,56,0.35)] p-4" onMouseDown={onCancel}>
             <Card className="w-full max-w-md p-5" onMouseDown={(event) => event.stopPropagation()}>
-                <h2 className="text-lg font-semibold text-[#1F2937]">{title}</h2>
-                <p className="mt-2 text-sm text-[#4B5563]">{description}</p>
+                <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h2>
+                <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{description}</p>
                 <div className="mt-5 flex justify-end gap-2">
                     <Button variant="outline" onClick={onCancel}>Cancelar</Button>
                     <Button variant="danger" onClick={onConfirm}>{confirmLabel}</Button>
@@ -153,3 +153,5 @@ export function ConfirmDialog({
         </div>
     );
 }
+
+

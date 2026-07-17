@@ -24,17 +24,17 @@ const ToastContext = createContext<ToastContextValue | null>(null);
 const TOAST_DURATION_MS = 5200;
 
 const styles: Record<ToastType, string> = {
-    success: "border-emerald-200 bg-emerald-50 text-[#065F46]",
-    error: "border-red-200 bg-red-50 text-[#991B1B]",
-    info: "border-blue-200 bg-blue-50 text-[#1E40AF]",
-    warning: "border-amber-200 bg-amber-50 text-[#92400E]",
+    success: "border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] text-[var(--color-surface)]",
+    error: "border-[var(--color-border-strong)] bg-[var(--color-canvas)] text-[var(--color-accent-contrast)]",
+    info: "border-[var(--color-border-soft)] bg-[var(--color-canvas)] text-[var(--color-surface-soft)]",
+    warning: "border-[var(--color-border-soft)] bg-[var(--color-canvas)] text-[var(--color-accent-strong)]",
 };
 
 const progressStyles: Record<ToastType, string> = {
-    success: "bg-[#10B981]",
-    error: "bg-[#EF4444]",
-    info: "bg-[#3B82F6]",
-    warning: "bg-[#F59E0B]",
+    success: "bg-[var(--color-accent-strong)]",
+    error: "bg-[var(--color-accent-contrast)]",
+    info: "bg-[var(--color-surface-soft)]",
+    warning: "bg-[var(--color-accent)]",
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -51,7 +51,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 id,
                 title: input.title,
                 description: input.description,
-                type: input.type ?? "info",
+                type: input.type || "info",
             };
 
             setToasts((current) => [nextToast, ...current].slice(0, 4));
@@ -69,7 +69,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 {toasts.map((item) => (
                     <div
                         className={cn(
-                            "relative overflow-hidden rounded-lg border p-4 pr-12 shadow-lg shadow-slate-900/10",
+                            "relative overflow-hidden rounded-lg border p-4 pr-12 shadow-lg shadow-[rgba(45,50,56,0.08)]",
                             styles[item.type],
                         )}
                         key={item.id}
@@ -78,7 +78,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                             <p className="text-sm font-semibold">{item.title}</p>
                             {item.description && <p className="mt-1 text-sm opacity-80">{item.description}</p>}
                             <button
-                                aria-label="Fechar notificacao"
+                                aria-label="Fechar notificação"
                                 className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-md border border-current bg-white/40 text-base font-semibold leading-none opacity-70 transition-opacity hover:opacity-100"
                                 onClick={() => removeToast(item.id)}
                                 type="button"
@@ -115,3 +115,4 @@ export function useToast() {
 
     return context;
 }
+

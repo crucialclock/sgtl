@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+@theme {
+    --color-canvas: #f7f9f6;
+    --color-canvas-strong: #eef3ee;
+    --color-surface: #006a4e;
+    --color-surface-soft: #0c7f5e;
+    --color-surface-contrast: #ffffff;
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #6b7280;
+    --color-border-soft: rgba(0, 106, 78, 0.12);
+    --color-border-strong: rgba(0, 106, 78, 0.22);
+    --color-accent: #f2c94c;
+    --color-accent-strong: #d9b73e;
+    --color-accent-contrast: #1f2937;
+    --color-accent-soft: rgba(242, 201, 76, 0.15);
+    --color-accent-soft-strong: rgba(242, 201, 76, 0.28);
+    --font-serif: "Georgia", serif;
+    --font-sans: "Inter", "Segoe UI", sans-serif;
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+    --duration-micro: 150ms;
+    --duration-base: 300ms;
+    --shadow-accent: 0 16px 34px rgba(0, 106, 78, 0.08);
+    --shadow-surface: 0 20px 40px rgba(0, 106, 78, 0.1);
+}
+
+@layer base {
+    :root {
+        font-family: var(--font-sans);
+        color: var(--color-text-primary);
+        background: var(--color-canvas);
+    }
+
+    html,
+    body,
+    #root {
+        min-height: 100%;
+    }
+
+    body {
+        margin: 0;
+        color: var(--color-text-primary);
+        background: radial-gradient(circle at top left, rgba(0, 106, 78, 0.08), transparent 32%), linear-gradient(180deg, var(--color-canvas) 0%, var(--color-canvas-strong) 100%);
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Button } from "./components/ui/button";
 import { BackupsPage } from "./pages/BackupsPage";
 import { DailyLogsPage } from "./pages/DailyLogsPage";
@@ -88,7 +88,7 @@ function App() {
 
     if (status === "starting") {
         return (
-            <main className="flex min-h-screen items-center justify-center bg-[#F8F9FA] text-[#1F2937]">
+            <main className="flex min-h-screen items-center justify-center bg-canvas text-(--color-text-primary)">
                 <p className="text-lg font-semibold">Iniciando SGTL...</p>
             </main>
         );
@@ -96,10 +96,10 @@ function App() {
 
     if (status === "error") {
         return (
-            <main className="flex min-h-screen items-center justify-center bg-[#F8F9FA] px-4 text-[#1F2937]">
+            <main className="flex min-h-screen items-center justify-center bg-canvas px-4 text-(--color-text-primary)">
                 <div className="max-w-md rounded-lg border border-red-200 bg-white p-6 shadow-sm">
-                    <h1 className="text-xl font-semibold text-[#EF4444]">Não foi possível conectar</h1>
-                    <p className="mt-2 text-sm text-[#4B5563]">{error}</p>
+                    <h1 className="text-xl font-semibold text-(--color-accent-contrast)">Não foi possível conectar</h1>
+                    <p className="mt-2 text-sm text-text-secondary">{error}</p>
                 </div>
             </main>
         );
@@ -117,13 +117,13 @@ function App() {
     }
 
     return (
-        <main className="min-h-screen bg-[#F8F9FA] text-[#1F2937]">
+        <main className="min-h-screen bg-canvas text-(--color-text-primary)">
             <div className="flex min-h-screen">
-                <aside className="hidden w-72 border-r border-[#D1D5DB] bg-[#1F2937] text-white md:block">
+                <aside className="hidden w-72 border-r border-border-strong bg-(--color-text-primary) text-white md:block">
                     <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
                         <div className="border-b border-white/20 px-5 py-5">
                             <div className="flex items-center gap-3">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-[#006A4E] text-sm font-bold tracking-wide">SGTL</div>
+                                <div className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-surface text-sm font-bold tracking-wide">SGTL</div>
                                 <div>
                                     <p className="text-xs text-white/60">
                                         Sistema de Gestão de <br />
@@ -170,13 +170,13 @@ function App() {
                 </aside>
 
                 <section className="flex min-w-0 flex-1 flex-col">
-                    <header className="border-b border-[#D1D5DB] bg-white/90 backdrop-blur">
+                    <header className="border-b border-border-strong bg-white/90 backdrop-blur">
                         <div className="px-4 py-4 md:px-6">
                             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#006A4E]">{pageMeta[activePage].eyebrow}</p>
-                                    <h1 className="mt-1 text-2xl font-semibold text-[#1F2937]">{pageMeta[activePage].title}</h1>
-                                    <p className="mt-1 text-sm text-[#4B5563]">{pageMeta[activePage].description}</p>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-surface">{pageMeta[activePage].eyebrow}</p>
+                                    <h1 className="mt-1 text-2xl font-semibold text-(--color-text-primary)">{pageMeta[activePage].title}</h1>
+                                    <p className="mt-1 text-sm text-text-secondary">{pageMeta[activePage].description}</p>
                                 </div>
                                 <Button
                                     variant="outline"
@@ -191,7 +191,7 @@ function App() {
                             </div>
                         </div>
 
-                        <div className="flex gap-2 overflow-x-auto border-t border-[#D1D5DB] px-4 py-2 md:hidden">
+                        <div className="flex gap-2 overflow-x-auto border-t border-border-strong px-4 py-2 md:hidden">
                             {user.role === "admin" && (
                                 <MobileNavButton current={activePage} page="registrations" onClick={setPage}>
                                     Cadastros
@@ -237,16 +237,16 @@ function NavButton({ current, page, children, onClick }: { current: Page; page: 
     const isActive = current === page;
 
     return (
-        <button className={`group flex w-full cursor-pointer items-center justify-between rounded-md border px-3 py-3 text-left text-sm font-medium transition-colors ${isActive ? "border-white bg-white text-[#1F2937]" : "border-white/20 text-white/70 hover:border-white/40 hover:bg-white/10 hover:text-white"}`} onClick={() => onClick(page)}>
+        <button className={`group flex w-full cursor-pointer items-center justify-between rounded-md border px-3 py-3 text-left text-sm font-medium transition-colors ${isActive ? "border-white bg-white text-(--color-text-primary)" : "border-white/20 text-white/70 hover:border-white/40 hover:bg-white/10 hover:text-white"}`} onClick={() => onClick(page)}>
             <span>{children}</span>
-            <span className={`h-2 w-2 ${isActive ? "bg-[#006A4E]" : "bg-transparent group-hover:bg-white/40"}`} />
+            <span className={`h-2 w-2 ${isActive ? "bg-surface" : "bg-transparent group-hover:bg-white/40"}`} />
         </button>
     );
 }
 
 function MobileNavButton({ current, page, children, onClick }: { current: Page; page: Page; children: string; onClick: (page: Page) => void }) {
     return (
-        <button className={`shrink-0 cursor-pointer rounded-md border px-4 py-2 text-sm font-medium ${current === page ? "border-[#006A4E] bg-[#006A4E] text-white" : "border-[#D1D5DB] bg-[#F8F9FA] text-[#4B5563]"}`} onClick={() => onClick(page)}>
+        <button className={`shrink-0 cursor-pointer rounded-md border px-4 py-2 text-sm font-medium ${current === page ? "border-surface bg-surface text-white" : "border-border-strong bg-canvas text-text-secondary"}`} onClick={() => onClick(page)}>
             {children}
         </button>
     );

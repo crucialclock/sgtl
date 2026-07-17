@@ -14,7 +14,7 @@ export function Pagination({ page, pageSize, totalItems, onPageChange }: Paginat
     const end = Math.min(safePage * pageSize, totalItems);
 
     return (
-        <div className="flex flex-col gap-3 border-t border-[#D1D5DB] bg-[#F8F9FA] px-4 py-3 text-sm text-[#4B5563] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t border-[var(--color-border-strong)] bg-[var(--color-canvas)] px-4 py-3 text-sm text-[var(--color-text-secondary)] sm:flex-row sm:items-center sm:justify-between">
             <span>
                 Exibindo {start}-{end} de {totalItems} registros
             </span>
@@ -22,7 +22,7 @@ export function Pagination({ page, pageSize, totalItems, onPageChange }: Paginat
                 <Button className="h-8 px-3" disabled={safePage <= 1} onClick={() => onPageChange(safePage - 1)} variant="outline">
                     Anterior
                 </Button>
-                <span className="min-w-20 text-center font-medium text-[#1F2937]">
+                <span className="min-w-20 text-center font-medium text-[var(--color-text-primary)]">
                     {safePage} / {totalPages}
                 </span>
                 <Button className="h-8 px-3" disabled={safePage >= totalPages} onClick={() => onPageChange(safePage + 1)} variant="outline">
@@ -32,3 +32,4 @@ export function Pagination({ page, pageSize, totalItems, onPageChange }: Paginat
         </div>
     );
 }
+

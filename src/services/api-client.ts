@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://sgtlapi.blazebr.com:25817";
+export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://sgtlapi.blazebr.com:25817";
 const TOKEN_KEY = "sgtl.auth.token";
 
 type RequestOptions = {
@@ -44,7 +44,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     let response: Response;
     try {
         response = await fetch(`${API_BASE_URL}${path}`, {
-            method: options.method ?? "GET",
+            method: options.method || "GET",
             headers,
             body,
         });
@@ -59,7 +59,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
             clearStoredToken();
         }
 
-        throw new ApiError(response.status, data.message ?? "Erro na requisição.");
+        throw new ApiError(response.status, data.message || "Erro na requisição.");
     }
 
     return data as T;
@@ -82,7 +82,7 @@ export async function apiDownload(path: string): Promise<Blob> {
 
     if (!response.ok) {
         const data = (await response.json().catch(() => ({}))) as { message?: string };
-        throw new ApiError(response.status, data.message ?? "Erro na requisição.");
+        throw new ApiError(response.status, data.message || "Erro na requisição.");
     }
 
     return response.blob();

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { ConfirmDialog } from "../components/ui/layout";
@@ -98,10 +98,8 @@ export function BackupsPage() {
             <Card className="p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <p className="text-sm font-semibold text-[#1F2937]">Backup do banco SQLite</p>
-                        <p className="mt-1 text-sm text-[#4B5563]">
-                            Crie um backup manual quando quiser. Backups automáticos são gerados pela API conforme a configuração do servidor.
-                        </p>
+                        <p className="text-sm font-semibold text-(--color-text-primary)">Backup do banco SQLite</p>
+                        <p className="mt-1 text-sm text-text-secondary">Crie um backup manual quando quiser. Backups automáticos são gerados pela API conforme a configuração do servidor.</p>
                     </div>
                     <Button disabled={isCreating} onClick={createBackup}>
                         {isCreating ? "Criando..." : "Criar backup"}
@@ -110,9 +108,9 @@ export function BackupsPage() {
             </Card>
 
             <Card className="overflow-hidden">
-                <div className="border-b border-[#D1D5DB] bg-[#F8F9FA] px-4 py-3">
-                    <p className="text-sm font-semibold text-[#1F2937]">Backups disponíveis</p>
-                    <p className="text-xs text-[#4B5563]">Arquivos salvos no servidor da API.</p>
+                <div className="border-b border-border-strong bg-canvas px-4 py-3">
+                    <p className="text-sm font-semibold text-(--color-text-primary)">Backups disponíveis</p>
+                    <p className="text-xs text-text-secondary">Arquivos salvos no servidor da API.</p>
                 </div>
                 <div className="overflow-x-auto">
                     <Table className="min-w-190">
@@ -125,54 +123,54 @@ export function BackupsPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {isLoading ? <TableRow><TableCell colSpan={4} className="py-8 text-center text-[#4B5563]">Carregando backups...</TableCell></TableRow> : null}
-                            {!isLoading && backups.length === 0 ? <TableRow><TableCell colSpan={4} className="py-8 text-center text-[#4B5563]">Nenhum backup encontrado.</TableCell></TableRow> : null}
-                            {!isLoading && visibleBackups.map((backup) => (
-                                <TableRow key={backup.fileName}>
-                                    <TableCell className="font-medium text-[#1F2937]">{backup.fileName}</TableCell>
-                                    <TableCell>{formatDateTime(backup.createdAt)}</TableCell>
-                                    <TableCell>{formatSize(backup.size)}</TableCell>
-                                    <TableCell>
-                                        <div className="flex flex-wrap gap-2">
-                                            <Button className="h-8 w-24 px-3" variant="outline" onClick={() => downloadBackup(backup.fileName)}>Baixar</Button>
-                                            <Button
-                                                className="h-8 w-24 px-3"
-                                                variant="danger"
-                                                disabled={deletingFileName === backup.fileName}
-                                                onClick={() => setConfirmBackup(backup)}
-                                            >
-                                                {deletingFileName === backup.fileName ? "Excluindo..." : "Excluir"}
-                                            </Button>
-                                        </div>
+                            {isLoading ? (
+                                <TableRow>
+                                    <TableCell colSpan={4} className="py-8 text-center text-text-secondary">
+                                        Carregando backups...
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            ) : null}
+                            {!isLoading && backups.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={4} className="py-8 text-center text-text-secondary">
+                                        Nenhum backup encontrado.
+                                    </TableCell>
+                                </TableRow>
+                            ) : null}
+                            {!isLoading &&
+                                visibleBackups.map((backup) => (
+                                    <TableRow key={backup.fileName}>
+                                        <TableCell className="font-medium text-(--color-text-primary)">{backup.fileName}</TableCell>
+                                        <TableCell>{formatDateTime(backup.createdAt)}</TableCell>
+                                        <TableCell>{formatSize(backup.size)}</TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-wrap gap-2">
+                                                <Button className="h-8 w-24 px-3" variant="outline" onClick={() => downloadBackup(backup.fileName)}>
+                                                    Baixar
+                                                </Button>
+                                                <Button className="h-8 w-24 px-3" variant="danger" disabled={deletingFileName === backup.fileName} onClick={() => setConfirmBackup(backup)}>
+                                                    {deletingFileName === backup.fileName ? "Excluindo..." : "Excluir"}
+                                                </Button>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </div>
                 {!isLoading && backups.length > 0 ? (
-                    <div className="flex flex-col gap-3 border-t border-[#D1D5DB] bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-sm text-[#4B5563]">
+                    <div className="flex flex-col gap-3 border-t border-border-strong bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-sm text-text-secondary">
                             Mostrando {pageStart} a {pageEnd} de {backups.length} backups
                         </p>
                         <div className="flex items-center gap-2">
-                            <Button
-                                className="h-9 px-3"
-                                variant="outline"
-                                disabled={currentPage === 1}
-                                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-                            >
+                            <Button className="h-9 px-3" variant="outline" disabled={currentPage === 1} onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}>
                                 Anterior
                             </Button>
-                            <span className="min-w-20 text-center text-sm font-medium text-[#1F2937]">
+                            <span className="min-w-20 text-center text-sm font-medium text-(--color-text-primary)">
                                 {currentPage} / {totalPages}
                             </span>
-                            <Button
-                                className="h-9 px-3"
-                                variant="outline"
-                                disabled={currentPage === totalPages}
-                                onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-                            >
+                            <Button className="h-9 px-3" variant="outline" disabled={currentPage === totalPages} onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}>
                                 Próxima
                             </Button>
                         </div>
@@ -180,14 +178,7 @@ export function BackupsPage() {
                 ) : null}
             </Card>
 
-            <ConfirmDialog
-                open={Boolean(confirmBackup)}
-                title="Excluir backup"
-                description={`Confirma a exclusão do backup ${confirmBackup?.fileName ?? "selecionado"}? Essa ação remove o arquivo do servidor.`}
-                confirmLabel="Excluir"
-                onCancel={() => setConfirmBackup(null)}
-                onConfirm={deleteBackup}
-            />
+            <ConfirmDialog open={Boolean(confirmBackup)} title="Excluir backup" description={`Confirma a exclusão do backup ${confirmBackup?.fileName || "selecionado"}? Essa ação remove o arquivo do servidor.`} confirmLabel="Excluir" onCancel={() => setConfirmBackup(null)} onConfirm={deleteBackup} />
         </section>
     );
 }

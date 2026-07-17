@@ -37,7 +37,7 @@ export function MaintenancesPage() {
     const filtered = useMemo(() => {
         const term = search.trim().toLowerCase();
         return maintenances.filter((item) => {
-            const matchesSearch = !term || `${item.vehicleLabel ?? ""} ${item.tipo} ${item.employeeName ?? ""} ${item.responsavel} ${item.observacoes}`.toLowerCase().includes(term);
+            const matchesSearch = !term || `${item.vehicleLabel || ""} ${item.tipo} ${item.employeeName || ""} ${item.responsavel} ${item.observacoes}`.toLowerCase().includes(term);
             const matchesVehicle = vehicleFilter === "all" || item.vehicleId === Number(vehicleFilter);
             const matchesType = typeFilter === "all" || item.tipo === typeFilter;
             return matchesSearch && matchesVehicle && matchesType;
@@ -78,7 +78,7 @@ export function MaintenancesPage() {
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const employee = employees.find((item) => item.id === form.employeeId);
-        const payload = { ...form, responsavel: employee?.nome ?? form.responsavel };
+        const payload = { ...form, responsavel: employee?.nome || form.responsavel };
 
         try {
             if (editing) {
@@ -120,7 +120,7 @@ export function MaintenancesPage() {
     return (
         <section className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-[#4B5563]">Registre manutenções vinculadas aos veículos da frota.</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Registre manutenções vinculadas aos veículos da frota.</p>
                 <div className="flex flex-wrap gap-2">
                     <Button variant="outline" onClick={exportPdf}>Exportar PDF</Button>
                     <Button onClick={openCreate}>Nova manutenção</Button>
@@ -145,7 +145,7 @@ export function MaintenancesPage() {
                         </Select>
                     </Field>
                     <div className="flex items-end">
-                        <p className="rounded-full border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#006A4E]">{filtered.length} manutenções</p>
+                        <p className="rounded-full border border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] px-3 py-2 text-sm font-semibold text-[var(--color-surface)]">{filtered.length} manutenções</p>
                     </div>
                 </FilterBar>
 
@@ -158,8 +158,8 @@ export function MaintenancesPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {isLoading ? <TableRow><TableCell colSpan={2} className="py-8 text-center text-[#4B5563]">Carregando manutenções...</TableCell></TableRow> : null}
-                            {!isLoading && visible.length === 0 ? <TableRow><TableCell colSpan={2} className="py-8 text-center text-[#4B5563]">Nenhuma manutenção encontrada.</TableCell></TableRow> : null}
+                            {isLoading ? <TableRow><TableCell colSpan={2} className="py-8 text-center text-[var(--color-text-secondary)]">Carregando manutenções...</TableCell></TableRow> : null}
+                            {!isLoading && visible.length === 0 ? <TableRow><TableCell colSpan={2} className="py-8 text-center text-[var(--color-text-secondary)]">Nenhuma manutenção encontrada.</TableCell></TableRow> : null}
                             {!isLoading && visible.map((item) => (
                                 <TableRow key={item.id}>
                                     <TableCell className="py-3 align-top"><MaintenanceBlock item={item} /></TableCell>
@@ -206,29 +206,29 @@ function MaintenanceBlock({ item }: { item: Maintenance }) {
             <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                 <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1.5 rounded-md border border-[#BBF7D0] bg-[#ECFDF5] px-2.5 py-1 text-xs font-semibold text-[#006A4E]">
+                        <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--color-surface)]">
                             <Wrench size={14} />
                             {item.tipo || "Manutenção"}
                         </span>
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4B5563]">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--color-text-secondary)]">
                             <CalendarDays size={14} />
                             {formatDate(item.data)}
                         </span>
                     </div>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#4B5563]">
-                        <span className="inline-flex min-w-0 items-center gap-2"><Truck size={16} className="shrink-0 text-[#006A4E]" /><span className="truncate">{item.vehicleLabel || "-"}</span></span>
-                        <span className="inline-flex min-w-0 items-center gap-2"><UserRound size={16} className="shrink-0 text-[#006A4E]" /><span className="truncate">{item.employeeName ?? item.responsavel ?? "-"}</span></span>
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--color-text-secondary)]">
+                        <span className="inline-flex min-w-0 items-center gap-2"><Truck size={16} className="shrink-0 text-[var(--color-surface)]" /><span className="truncate">{item.vehicleLabel || "-"}</span></span>
+                        <span className="inline-flex min-w-0 items-center gap-2"><UserRound size={16} className="shrink-0 text-[var(--color-surface)]" /><span className="truncate">{item.employeeName || item.responsavel || "-"}</span></span>
                     </div>
                 </div>
-                <div className="flex shrink-0 items-center gap-2 rounded-md border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#1F2937]">
-                    <DollarSign size={16} className="text-[#047857]" />
+                <div className="flex shrink-0 items-center gap-2 rounded-md border border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] px-3 py-2 text-sm font-semibold text-[var(--color-text-primary)]">
+                    <DollarSign size={16} className="text-[var(--color-surface)]" />
                     {formatCurrency(item.valor)}
                 </div>
             </div>
 
             <div className="mt-4 min-w-0">
-                <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#6B7280]"><FileText size={14} /> Observações</p>
-                <p className="truncate text-sm font-medium text-[#1F2937]" title={item.observacoes || "-"}>{item.observacoes || "-"}</p>
+                <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-text-muted)]"><FileText size={14} /> Observações</p>
+                <p className="truncate text-sm font-medium text-[var(--color-text-primary)]" title={item.observacoes || "-"}>{item.observacoes || "-"}</p>
             </div>
         </div>
     );
@@ -237,3 +237,4 @@ function MaintenanceBlock({ item }: { item: Maintenance }) {
 function toNumber(value: string) { return Number(value.replace(",", ".")); }
 function formatDate(value: string) { return new Intl.DateTimeFormat("pt-BR", { timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`)); }
 function formatCurrency(value: number) { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value); }
+

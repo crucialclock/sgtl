@@ -8,11 +8,11 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants: Record<ButtonVariant, string> = {
-    default: "border border-[#00543E] bg-[#006A4E] text-white hover:bg-[#00543E]",
-    outline: "border border-[#D1D5DB] bg-white text-[#4B5563] hover:border-[#006A4E] hover:text-[#006A4E]",
-    ghost: "border border-[#D1D5DB] bg-white text-[#4B5563] hover:border-[#006A4E] hover:bg-[#F8F9FA] hover:text-[#006A4E]",
-    success: "border border-emerald-200 bg-emerald-50 text-[#10B981] hover:bg-emerald-100",
-    danger: "border border-red-200 bg-red-50 text-[#EF4444] hover:bg-red-100",
+    default: "border border-[var(--color-surface-soft)] bg-[var(--color-surface)] text-white hover:bg-[var(--color-surface-soft)]",
+    outline: "border border-[var(--color-border-strong)] bg-white text-[var(--color-text-secondary)] hover:border-[var(--color-surface)] hover:text-[var(--color-surface)]",
+    ghost: "border border-[var(--color-border-strong)] bg-white text-[var(--color-text-secondary)] hover:border-[var(--color-surface)] hover:bg-[var(--color-canvas)] hover:text-[var(--color-surface)]",
+    success: "border border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] text-[var(--color-accent-contrast)] hover:bg-[var(--color-accent-soft-strong)]",
+    danger: "border border-[var(--color-border-strong)] bg-[var(--color-canvas)] text-[var(--color-accent-contrast)] hover:bg-[var(--color-canvas-strong)]",
 };
 
 export function Button({ className, variant = "default", type = "button", ...props }: ButtonProps) {
@@ -28,3 +28,4 @@ export function Button({ className, variant = "default", type = "button", ...pro
         />
     );
 }
+

@@ -218,7 +218,7 @@ export function RegistrationsPage() {
                         </Field>
                     )}
                     <div className="flex items-end">
-                        <p className="rounded-full border border-[#BBF7D0] bg-[#ECFDF5] px-3 py-2 text-sm font-semibold text-[#006A4E]">{rows.length} registros</p>
+                        <p className="rounded-full border border-[var(--color-accent-soft-strong)] bg-[var(--color-accent-soft)] px-3 py-2 text-sm font-semibold text-[var(--color-surface)]">{rows.length} registros</p>
                     </div>
                 </FilterBar>
                 <SimpleTable headers={headers} loading={isLoading} onPageChange={setPage} page={page} rows={rows} />
@@ -331,14 +331,14 @@ function SimpleTable({ headers, rows, page, onPageChange, loading }: { headers: 
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={headers.length} className="py-8 text-center text-[#4B5563]">
+                                <TableCell colSpan={headers.length} className="py-8 text-center text-[var(--color-text-secondary)]">
                                     Carregando registros...
                                 </TableCell>
                             </TableRow>
                         ) : null}
                         {!loading && visibleRows.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={headers.length} className="py-8 text-center text-[#4B5563]">
+                                <TableCell colSpan={headers.length} className="py-8 text-center text-[var(--color-text-secondary)]">
                                     Nenhum registro encontrado.
                                 </TableCell>
                             </TableRow>
@@ -355,15 +355,15 @@ function SimpleTable({ headers, rows, page, onPageChange, loading }: { headers: 
                 </Table>
             </div>
             <div className="space-y-3 p-4 md:hidden">
-                {loading ? <p className="text-sm text-[#4B5563]">Carregando registros...</p> : null}
-                {!loading && visibleRows.length === 0 ? <p className="text-sm text-[#4B5563]">Nenhum registro encontrado.</p> : null}
+                {loading ? <p className="text-sm text-[var(--color-text-secondary)]">Carregando registros...</p> : null}
+                {!loading && visibleRows.length === 0 ? <p className="text-sm text-[var(--color-text-secondary)]">Nenhum registro encontrado.</p> : null}
                 {!loading &&
                     visibleRows.map((row, index) => (
-                        <div key={index} className="rounded-lg border border-[#D1D5DB] bg-white p-3 text-sm">
+                        <div key={index} className="rounded-lg border border-[var(--color-border-strong)] bg-white p-3 text-sm">
                             {row.map((cell, cellIndex) => (
-                                <div key={cellIndex} className="flex justify-between gap-3 border-b border-[#F3F4F6] py-2">
-                                    <span className="font-semibold text-[#4B5563]">{headers[cellIndex]}</span>
-                                    <span className="text-right text-[#1F2937]">{cell}</span>
+                                <div key={cellIndex} className="flex justify-between gap-3 border-b border-[var(--color-canvas-strong)] py-2">
+                                    <span className="font-semibold text-[var(--color-text-secondary)]">{headers[cellIndex]}</span>
+                                    <span className="text-right text-[var(--color-text-primary)]">{cell}</span>
                                 </div>
                             ))}
                         </div>
@@ -378,3 +378,4 @@ function getDeleteName(target: EditingItem) {
     if (target.kind === "vehicles") return target.item.placa;
     return target.item.nome;
 }
+
