@@ -30,13 +30,13 @@ export function FormSection({ title, children, className = "" }: { title: string
     return (
         <fieldset className={cn("rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-canvas)] p-4", className)}>
             <legend className="px-1 text-sm font-semibold text-[var(--color-text-primary)]">{title}</legend>
-            <div className="mt-2 grid gap-4 md:grid-cols-2">{children}</div>
+            <div className="mt-2 grid min-w-0 gap-4 sm:grid-cols-2">{children}</div>
         </fieldset>
     );
 }
 
 export function FilterBar({ children }: { children: ReactNode }) {
-    return <div className="grid gap-3 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] p-4 md:grid-cols-4">{children}</div>;
+    return <div className="grid min-w-0 gap-3 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] p-4 sm:grid-cols-2 xl:grid-cols-4">{children}</div>;
 }
 
 export function EmptyState({ title, description }: { title: string; description?: string }) {
@@ -92,16 +92,16 @@ export function Modal({
     const sizeClass = size === "lg" ? "max-w-4xl" : "max-w-3xl";
 
     return (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(45,50,56,0.35)] p-4" onMouseDown={onClose}>
-            <div className={cn("max-h-[92vh] w-full overflow-y-auto rounded-lg border border-[var(--color-border-strong)] bg-[var(--color-surface-contrast)] shadow-2xl shadow-[rgba(45,50,56,0.16)]", sizeClass)} onMouseDown={(event) => event.stopPropagation()}>
-                <div className="flex items-start justify-between gap-4 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] px-5 py-4">
-                    <div>
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-[rgba(45,50,56,0.35)] p-0 sm:items-center sm:p-4" onMouseDown={onClose}>
+            <div className={cn("max-h-[94vh] w-full overflow-y-auto rounded-t-lg border border-[var(--color-border-strong)] bg-[var(--color-surface-contrast)] shadow-2xl shadow-[rgba(45,50,56,0.16)] sm:max-h-[92vh] sm:rounded-lg", sizeClass)} onMouseDown={(event) => event.stopPropagation()}>
+                <div className="flex flex-col gap-3 border-b border-[var(--color-border-strong)] bg-[var(--color-canvas)] px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:px-5">
+                    <div className="min-w-0">
                         <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h2>
                         {description ? <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{description}</p> : null}
                     </div>
-                    <Button variant="ghost" className="h-8 px-2" onClick={onClose}>Fechar</Button>
+                    <Button variant="ghost" className="min-h-10 w-full px-3 sm:w-auto" onClick={onClose}>Fechar</Button>
                 </div>
-                <div className="p-5">{children}</div>
+                <div className="min-w-0 p-4 sm:p-5">{children}</div>
             </div>
         </div>
     );
@@ -141,11 +141,11 @@ export function ConfirmDialog({
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(45,50,56,0.35)] p-4" onMouseDown={onCancel}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(45,50,56,0.35)] p-0 sm:items-center sm:p-4" onMouseDown={onCancel}>
             <Card className="w-full max-w-md p-5" onMouseDown={(event) => event.stopPropagation()}>
                 <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h2>
                 <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{description}</p>
-                <div className="mt-5 flex justify-end gap-2">
+                <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                     <Button variant="outline" onClick={onCancel}>Cancelar</Button>
                     <Button variant="danger" onClick={onConfirm}>{confirmLabel}</Button>
                 </div>

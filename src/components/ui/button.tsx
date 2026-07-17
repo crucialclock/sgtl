@@ -19,7 +19,7 @@ export function Button({ className, variant = "default", type = "button", ...pro
     return (
         <button
             className={cn(
-                "inline-flex h-10 cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60",
+                "inline-flex min-h-11 cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60",
                 variants[variant],
                 className,
             )}

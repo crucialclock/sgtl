@@ -1,4 +1,8 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://sgtlapi.blazebr.com:25817";
+import { API_BASE_URL, buildApiUrl } from "../platform/api";
+import { storage } from "../platform/storage";
+
+export { API_BASE_URL };
+
 const TOKEN_KEY = "sgtl.auth.token";
 
 type RequestOptions = {
@@ -17,15 +21,15 @@ export class ApiError extends Error {
 }
 
 export function getStoredToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    return storage.get(TOKEN_KEY);
 }
 
 export function setStoredToken(token: string): void {
-    localStorage.setItem(TOKEN_KEY, token);
+    storage.set(TOKEN_KEY, token);
 }
 
 export function clearStoredToken(): void {
-    localStorage.removeItem(TOKEN_KEY);
+    storage.remove(TOKEN_KEY);
 }
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
@@ -43,7 +47,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
     let response: Response;
     try {
-        response = await fetch(`${API_BASE_URL}${path}`, {
+        response = await fetch(buildApiUrl(path), {
             method: options.method || "GET",
             headers,
             body,
@@ -75,7 +79,7 @@ export async function apiDownload(path: string): Promise<Blob> {
 
     let response: Response;
     try {
-        response = await fetch(`${API_BASE_URL}${path}`, { headers });
+        response = await fetch(buildApiUrl(path), { headers });
     } catch {
         throw new ApiError(0, "Não foi possível conectar à API.");
     }
